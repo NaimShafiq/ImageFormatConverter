@@ -12,12 +12,19 @@ namespace ImageFormatConverter
 {
     public partial class ImageConverter : Form
     {
+        private ComboBox comboBox;
+
         public ImageConverter()
         {
             InitializeComponent();
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void comboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+ 
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
