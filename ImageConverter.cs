@@ -115,29 +115,32 @@ namespace ImageFormatConverter
             using (Image image = Image.FromFile(imagePath))
             {
                 // Save the image in the desired format
-                switch (dataType)
+                ImageFormat imageFormat;
+                switch (dataType.ToLower())
                 {
                     case "jpg":
-                        image.Save(convertedImagePath, ImageFormat.Jpeg);
+                    case "jpeg":
+                        imageFormat = ImageFormat.Jpeg;
                         break;
                     case "png":
-                        image.Save(convertedImagePath, ImageFormat.Png);
-                        break;
-                    case "jpeg":
-                        image.Save(convertedImagePath, ImageFormat.Jpeg);
+                        imageFormat = ImageFormat.Png;
                         break;
                     case "tif":
-                        image.Save(convertedImagePath, ImageFormat.Tiff);
+                        imageFormat = ImageFormat.Tiff;
                         break;
                     default:
                         // Unsupported data type
                         throw new NotSupportedException("Selected data type is not supported.");
                 }
+
+                // Save the image with the specified image format
+                image.Save(convertedImagePath, imageFormat);
             }
 
             // Return the path of the converted image
             return convertedImagePath;
         }
+
 
         private string GetConvertedImagePath(string originalImagePath, string dataType)
         {
