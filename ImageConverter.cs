@@ -97,20 +97,31 @@ namespace ImageFormatConverter
                         else if (Directory.Exists(selectedPath))
                         {
                             // Get all image files in the selected folder
-                            string[] imageFiles = Directory.GetFiles(selectedPath, "*.png", SearchOption.AllDirectories);
+                            string[] imageFiles = Directory.GetFiles(selectedPath, "*.*", SearchOption.AllDirectories)
+                                .Where(file => IsValidImageFile(file))
+                                .ToArray();
 
                             // Convert each image to the selected data type
                             foreach (string imageFile in imageFiles)
                             {
-                                // Convert the image to the selected data type
-                                string convertedImagePath = ConvertImageToDataType(imageFile, selectedDataType);
+                                try
+                                {
+                                    // Convert the image to the selected data type
+                                    string convertedImagePath = ConvertImageToDataType(imageFile, selectedDataType);
 
-                                // Display the converted image path in a text box or perform any other desired action
-                                textBox1.AppendText(convertedImagePath + Environment.NewLine);
+                                    // Display the converted image path in a text box or perform any other desired action
+                                    textBox1.AppendText(convertedImagePath + Environment.NewLine);
+                                }
+                                catch (Exception ex)
+                                {
+                                    MessageBox.Show($"Error occurred during image conversion: {ex.Message}");
+                                }
                             }
 
                             MessageBox.Show("Image conversion completed successfully for all images in the selected folder.");
                         }
+
+
                         else
                         {
                             MessageBox.Show("The selected path does not exist.");
@@ -135,6 +146,13 @@ namespace ImageFormatConverter
 
         private string ConvertImageToDataType(string imagePath, string dataType)
         {
+            // Check if the image is already in the selected format
+            string imageExtension = Path.GetExtension(imagePath).ToLower();
+            string selectedExtension = "." + dataType.ToLower();
+            if (imageExtension == selectedExtension)
+            {
+                throw new ArgumentException("Image already in selected format.");
+            }
             // Generate a new file name for the converted image based on the selected data type
             string convertedImagePath = GetConvertedImagePath(imagePath, dataType);
 
@@ -182,6 +200,15 @@ namespace ImageFormatConverter
 
             return convertedImagePath;
         }
+
+        private bool IsValidImageFile(string filePath)
+        {
+            string extension = Path.GetExtension(filePath);
+            string[] validExtensions = new string[] { ".png", ".jpg", ".jpeg", ".gif", ".bmp" }; // Add more valid extensions if needed
+
+            return validExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase);
+        }
+
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
