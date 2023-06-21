@@ -48,12 +48,13 @@ namespace ImageFormatConverter
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(319, 71);
+            this.button1.BackColor = System.Drawing.SystemColors.Control;
+            this.button1.Location = new System.Drawing.Point(319, 72);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(151, 21);
+            this.button1.Size = new System.Drawing.Size(151, 22);
             this.button1.TabIndex = 3;
             this.button1.Text = "Convert";
-            this.button1.UseVisualStyleBackColor = true;
+            this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // textBox2
@@ -86,6 +87,9 @@ namespace ImageFormatConverter
             // 
             // richTextBox1
             // 
+            this.richTextBox1.BackColor = System.Drawing.SystemColors.Control;
+            this.richTextBox1.Font = new System.Drawing.Font("Trebuchet MS", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextBox1.ForeColor = System.Drawing.Color.Red;
             this.richTextBox1.Location = new System.Drawing.Point(44, 116);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(426, 135);
