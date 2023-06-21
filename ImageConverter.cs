@@ -26,7 +26,7 @@ namespace ImageFormatConverter
         private void button2_Click(object sender, EventArgs e)
         {
             // Clear textBox1 when Browse Folder button is clicked
-            textBox1.Text = "";
+            richTextBox1.Text = "";
 
             FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
 
@@ -47,7 +47,7 @@ namespace ImageFormatConverter
         private void button3_Click(object sender, EventArgs e)
         {
             // Clear textBox1 when Browse File button is clicked
-            textBox1.Text = "";
+            richTextBox1.Text = "";
 
             OpenFileDialog openFileDialog = new OpenFileDialog();
 
@@ -65,7 +65,6 @@ namespace ImageFormatConverter
                 textBox2.Text = selectedFilePath;
             }
         }
-
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -90,7 +89,7 @@ namespace ImageFormatConverter
                             string convertedImagePath = ConvertImageToDataType(selectedPath, selectedDataType);
 
                             // Display the converted image path in a text box or perform any other desired action
-                            textBox1.Text = convertedImagePath;
+                            richTextBox1.Text = convertedImagePath;
 
                             MessageBox.Show("Image conversion completed successfully.");
                         }
@@ -110,7 +109,7 @@ namespace ImageFormatConverter
                                     string convertedImagePath = ConvertImageToDataType(imageFile, selectedDataType);
 
                                     // Display the converted image path in a text box or perform any other desired action
-                                    textBox1.AppendText(convertedImagePath + Environment.NewLine);
+                                    richTextBox1.AppendText(convertedImagePath + Environment.NewLine);
                                 }
                                 catch (Exception ex)
                                 {
@@ -187,7 +186,6 @@ namespace ImageFormatConverter
             return convertedImagePath;
         }
 
-
         private string GetConvertedImagePath(string originalImagePath, string dataType)
         {
             // Generate a new file name for the converted image based on the selected data type
@@ -207,8 +205,12 @@ namespace ImageFormatConverter
             return validExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase);
         }
 
-
         private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
         {
 
         }
