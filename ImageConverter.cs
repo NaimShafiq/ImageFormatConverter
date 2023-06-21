@@ -14,6 +14,11 @@ namespace ImageFormatConverter
 {
     public partial class ImageConverter : Form
     {
+        private int totalImagesToConvert;
+        private int imagesConverted;
+        private int totalImagesConverted;
+        private DateTime startTime;
+
         public ImageConverter()
         {
             InitializeComponent();
@@ -67,77 +72,107 @@ namespace ImageFormatConverter
         private void button1_Click(object sender, EventArgs e)
         {
             // Get the selected data type from the ComboBox
-            string selectedDataType = comboBox2.SelectedItem.ToString();
+            string selectedDataType = comboBox2.SelectedItem?.ToString();
 
             // Validate if a data type is selected
-            if (!string.IsNullOrEmpty(selectedDataType))
+            if (string.IsNullOrEmpty(selectedDataType))
             {
-                // Get the path of the selected item (file or folder)
-                string selectedPath = textBox2.Text;
+                MessageBox.Show("Please select a data type.");
+                return;
+            }
 
-                // Validate if a path is selected
-                if (!string.IsNullOrEmpty(selectedPath))
+            // Get the path of the selected item (file or folder)
+            string selectedPath = textBox2.Text;
+
+            // Validate if a path is selected
+            if (string.IsNullOrEmpty(selectedPath))
+            {
+                MessageBox.Show("Please select a file or folder.");
+                return;
+            }
+
+            // Reset progress and time variables
+            totalImagesToConvert = 0;
+            imagesConverted = 0;
+            totalImagesConverted = 0;
+            startTime = DateTime.Now;
+
+            // Disable the Convert button during the conversion process
+            button1.Enabled = false;
+
+            try
+            {
+                // Check if the selected path is a file
+                if (File.Exists(selectedPath))
                 {
-                    try
+                    // Convert the selected file to the selected data type
+                    string convertedImagePath = ConvertImageToDataType(selectedPath, selectedDataType);
+
+                    // Display the converted image path in a text box or perform any other desired action
+                    richTextBox1.AppendText(convertedImagePath + Environment.NewLine);
+
+                    MessageBox.Show("Image conversion completed successfully.");
+                }
+                else if (Directory.Exists(selectedPath))
+                {
+                    // Get all image files in the selected folder
+                    string[] imageFiles = Directory.GetFiles(selectedPath, "*.*", SearchOption.AllDirectories)
+                        .Where(file => IsValidImageFile(file))
+                        .ToArray();
+
+                    // Set total number of images to convert
+                    totalImagesToConvert = imageFiles.Length;
+
+                    // Convert each image to the selected data type
+                    foreach (string imageFile in imageFiles)
                     {
-                        // Check if the selected path is a file
-                        if (File.Exists(selectedPath))
+                        try
                         {
-                            // Convert the selected file to the selected data type
-                            string convertedImagePath = ConvertImageToDataType(selectedPath, selectedDataType);
+                            // Convert the image to the selected data type
+                            string convertedImagePath = ConvertImageToDataType(imageFile, selectedDataType);
 
                             // Display the converted image path in a text box or perform any other desired action
-                            richTextBox1.Text = convertedImagePath;
+                            richTextBox1.AppendText(convertedImagePath + Environment.NewLine);
 
-                            MessageBox.Show("Image conversion completed successfully.");
+                            // Increment the total images converted counter
+                            totalImagesConverted++;
                         }
-                        else if (Directory.Exists(selectedPath))
+                        catch (Exception ex)
                         {
-                            // Get all image files in the selected folder
-                            string[] imageFiles = Directory.GetFiles(selectedPath, "*.*", SearchOption.AllDirectories)
-                                .Where(file => IsValidImageFile(file))
-                                .ToArray();
-
-                            // Convert each image to the selected data type
-                            foreach (string imageFile in imageFiles)
-                            {
-                                try
-                                {
-                                    // Convert the image to the selected data type
-                                    string convertedImagePath = ConvertImageToDataType(imageFile, selectedDataType);
-
-                                    // Display the converted image path in a text box or perform any other desired action
-                                    richTextBox1.AppendText(convertedImagePath + Environment.NewLine);
-                                }
-                                catch (Exception ex)
-                                {
-                                    MessageBox.Show($"Error occurred during image conversion: {ex.Message}");
-                                }
-                            }
-
-                            MessageBox.Show("Image conversion completed successfully for all images in the selected folder.");
-                        }
-                        else
-                        {
-                            MessageBox.Show("The selected path does not exist.");
+                            MessageBox.Show($"Error occurred during image conversion: {ex.Message}");
                         }
                     }
-                    catch (Exception ex)
-                    {
-                        // Handle any exceptions that occur during the conversion process
-                        MessageBox.Show("Error occurred during image conversion: " + ex.Message);
-                    }
+
+                    MessageBox.Show("Image conversion completed successfully for all images in the selected folder.");
                 }
                 else
                 {
-                    MessageBox.Show("Please select a file or folder.");
+                    MessageBox.Show("The selected path does not exist.");
                 }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Please select a data type.");
+                // Handle any exceptions that occur during the conversion process
+                MessageBox.Show("Error occurred during image conversion: " + ex.Message);
+            }
+            finally
+            {
+                // Calculate the time taken
+                TimeSpan timeTaken = DateTime.Now - startTime;
+
+                // Enable the Convert button after the conversion process
+                button1.Enabled = true;
+
+                // Display the total images converted and time taken
+                string resultMessage = $"Total Images Converted: {totalImagesConverted}" +
+                                       $"{Environment.NewLine}Time Taken: {timeTaken.TotalSeconds} seconds";
+
+                // Append the result message to the existing content in the richTextBox1
+                richTextBox1.AppendText(Environment.NewLine + resultMessage);
             }
         }
+
+
 
         private string ConvertImageToDataType(string imagePath, string dataType)
         {
@@ -214,3 +249,4 @@ namespace ImageFormatConverter
         }
     }
 }
+
