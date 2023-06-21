@@ -14,8 +14,6 @@ namespace ImageFormatConverter
 {
     public partial class ImageConverter : Form
     {
-        private ComboBox comboBox;
-
         public ImageConverter()
         {
             InitializeComponent();
