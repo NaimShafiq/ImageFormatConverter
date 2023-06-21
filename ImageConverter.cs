@@ -120,8 +120,6 @@ namespace ImageFormatConverter
 
                             MessageBox.Show("Image conversion completed successfully for all images in the selected folder.");
                         }
-
-
                         else
                         {
                             MessageBox.Show("The selected path does not exist.");
@@ -151,7 +149,7 @@ namespace ImageFormatConverter
             string selectedExtension = "." + dataType.ToLower();
             if (imageExtension == selectedExtension)
             {
-                throw new ArgumentException("Image already in selected format.");
+                throw new ArgumentException(imagePath +" is already in "+ selectedExtension +" format.");
             }
             // Generate a new file name for the converted image based on the selected data type
             string convertedImagePath = GetConvertedImagePath(imagePath, dataType);
