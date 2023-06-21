@@ -20,11 +20,14 @@ namespace ImageFormatConverter
         {
             InitializeComponent();
             comboBox2.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox2.Items.AddRange(new object[] { "JPG", "JPEG", "PNG", "TIF" });
+            comboBox2.Items.AddRange(new object[] { "GIF", "JPEG", "PNG", "TIF" });
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
+            // Clear textBox1 when Browse Folder button is clicked
+            textBox1.Text = "";
+
             FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
 
             // Set initial folder
@@ -41,14 +44,11 @@ namespace ImageFormatConverter
             }
         }
 
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void button3_Click(object sender, EventArgs e)
         {
+            // Clear textBox1 when Browse File button is clicked
+            textBox1.Text = "";
+
             OpenFileDialog openFileDialog = new OpenFileDialog();
 
             // Set initial directory and filter for file selection
@@ -66,6 +66,7 @@ namespace ImageFormatConverter
             }
         }
 
+
         private void button1_Click(object sender, EventArgs e)
         {
             // Get the selected data type from the ComboBox
@@ -74,19 +75,46 @@ namespace ImageFormatConverter
             // Validate if a data type is selected
             if (!string.IsNullOrEmpty(selectedDataType))
             {
-                // Get the path of the selected image file
-                string selectedImagePath = textBox2.Text;
+                // Get the path of the selected item (file or folder)
+                string selectedPath = textBox2.Text;
 
-                // Validate if an image file is selected
-                if (!string.IsNullOrEmpty(selectedImagePath))
+                // Validate if a path is selected
+                if (!string.IsNullOrEmpty(selectedPath))
                 {
                     try
                     {
-                        // Convert the image to the selected data type
-                        string convertedImagePath = ConvertImageToDataType(selectedImagePath, selectedDataType);
+                        // Check if the selected path is a file
+                        if (File.Exists(selectedPath))
+                        {
+                            // Convert the selected file to the selected data type
+                            string convertedImagePath = ConvertImageToDataType(selectedPath, selectedDataType);
 
-                        // Display the converted image path in a text box or perform any other desired action
-                        textBox1.Text = convertedImagePath;
+                            // Display the converted image path in a text box or perform any other desired action
+                            textBox1.Text = convertedImagePath;
+
+                            MessageBox.Show("Image conversion completed successfully.");
+                        }
+                        else if (Directory.Exists(selectedPath))
+                        {
+                            // Get all image files in the selected folder
+                            string[] imageFiles = Directory.GetFiles(selectedPath, "*.png", SearchOption.AllDirectories);
+
+                            // Convert each image to the selected data type
+                            foreach (string imageFile in imageFiles)
+                            {
+                                // Convert the image to the selected data type
+                                string convertedImagePath = ConvertImageToDataType(imageFile, selectedDataType);
+
+                                // Display the converted image path in a text box or perform any other desired action
+                                textBox1.AppendText(convertedImagePath + Environment.NewLine);
+                            }
+
+                            MessageBox.Show("Image conversion completed successfully for all images in the selected folder.");
+                        }
+                        else
+                        {
+                            MessageBox.Show("The selected path does not exist.");
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -96,7 +124,7 @@ namespace ImageFormatConverter
                 }
                 else
                 {
-                    MessageBox.Show("Please select an image file.");
+                    MessageBox.Show("Please select a file or folder.");
                 }
             }
             else
@@ -104,7 +132,6 @@ namespace ImageFormatConverter
                 MessageBox.Show("Please select a data type.");
             }
         }
-
 
         private string ConvertImageToDataType(string imagePath, string dataType)
         {
@@ -124,6 +151,9 @@ namespace ImageFormatConverter
                         break;
                     case "png":
                         imageFormat = ImageFormat.Png;
+                        break;
+                    case "gif":
+                        imageFormat = ImageFormat.Gif;
                         break;
                     case "tif":
                         imageFormat = ImageFormat.Tiff;

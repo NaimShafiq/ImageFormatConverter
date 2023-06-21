@@ -72,7 +72,6 @@ namespace ImageFormatConverter
             this.textBox2.Size = new System.Drawing.Size(269, 20);
             this.textBox2.TabIndex = 5;
             this.textBox2.Text = "Image Path....";
-            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // button2
             // 
