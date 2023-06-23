@@ -21,3 +21,6 @@ Click "Check Format": If you want to determine the format of a specific image, c
 Select the image file: A file dialog will open, allowing you to choose the image file you want to check.
 
 View the image format: The application will reveal the format (file
+
+
+![image](https://github.com/NaimShafiq/ImageFormatConverter/assets/74654331/8c61c9e6-3abf-408e-84c1-2fd6019d5518)
