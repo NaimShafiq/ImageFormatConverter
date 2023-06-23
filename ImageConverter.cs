@@ -72,7 +72,7 @@ namespace ImageFormatConverter
             OpenFileDialog openFileDialog = new OpenFileDialog();
 
             // Set initial directory and filter for file selection
-            openFileDialog.InitialDirectory = @"C:\";
+            openFileDialog.InitialDirectory = @"Picture";
             openFileDialog.Filter = "Text Files (*.png)|*.png|All Files (*.*)|*.*";
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
