@@ -225,7 +225,7 @@ namespace ImageFormatConverter
         private bool IsValidImageFile(string filePath)
         {
             string extension = Path.GetExtension(filePath);
-            string[] validExtensions = new string[] { ".png", ".jpg", ".jpeg", ".gif", ".bmp" };
+            string[] validExtensions = new string[] { ".png", ".jpg", ".jpeg", ".gif", ".bmp", ".tiff", ".tif" };
 
             return validExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase);
         }
