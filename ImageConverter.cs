@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ImageFormatConverter
@@ -38,49 +35,34 @@ namespace ImageFormatConverter
                 { ImageFormat.Png.Guid, ".png" },
                 { ImageFormat.Gif.Guid, ".gif" },
                 { ImageFormat.Tiff.Guid, ".tiff" },
-                // Add more format mappings if needed
-            };
+           };
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            // Clear textBox1 when Browse Folder button is clicked
             richTextBox1.Text = "";
 
             FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
-
-            // Set initial folder
             folderBrowserDialog.SelectedPath = @"C:\";
 
             if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
             {
-                // Folder path selected by the user
                 string selectedFolderPath = folderBrowserDialog.SelectedPath;
-
-                // Do something with the selected folder path
-                // For example, display it in a text box
                 textBox2.Text = selectedFolderPath;
             }
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            // Clear textBox1 when Browse File button is clicked
             richTextBox1.Text = "";
 
             OpenFileDialog openFileDialog = new OpenFileDialog();
 
             // Set initial directory and filter for file selection
-            openFileDialog.InitialDirectory = @"Picture";
-            openFileDialog.Filter = "Text Files (*.png)|*.png|All Files (*.*)|*.*";
-
+            openFileDialog.Filter = "Image Files|*.bmp;*.jpg;*.jpeg;*.png;*.gif;*.tif;*.tiff";
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                // File path selected by the user
                 string selectedFilePath = openFileDialog.FileName;
-
-                // Do something with the selected file path
-                // For example, display it in a text box
                 textBox2.Text = selectedFilePath;
             }
         }
@@ -123,10 +105,7 @@ namespace ImageFormatConverter
                 {
                     // Convert the selected file to the selected data type
                     string convertedImagePath = ConvertImageToDataType(selectedPath, selectedDataType);
-
-                    // Display the converted image path in a text box or perform any other desired action
                     richTextBox1.AppendText(convertedImagePath + Environment.NewLine);
-
                     MessageBox.Show("Image conversion completed successfully.");
                 }
                 else if (Directory.Exists(selectedPath))
@@ -146,8 +125,6 @@ namespace ImageFormatConverter
                         {
                             // Convert the image to the selected data type
                             string convertedImagePath = ConvertImageToDataType(imageFile, selectedDataType);
-
-                            // Display the converted image path in a text box or perform any other desired action
                             richTextBox1.AppendText(convertedImagePath + Environment.NewLine);
 
                             // Increment the total images converted counter
@@ -159,7 +136,7 @@ namespace ImageFormatConverter
                         }
                     }
 
-                    MessageBox.Show("Image conversion completed successfully for all images in the selected folder.");
+                    richTextBox1.Text = "Image conversion completed successfully for all images in the selected folder.";
                 }
                 else
                 {
@@ -168,7 +145,6 @@ namespace ImageFormatConverter
             }
             catch (Exception ex)
             {
-                // Handle any exceptions that occur during the conversion process
                 MessageBox.Show("Error occurred during image conversion: " + ex.Message);
             }
             finally
@@ -224,7 +200,6 @@ namespace ImageFormatConverter
                         imageFormat = ImageFormat.Bmp;
                         break;
                     default:
-                        // Unsupported data type
                         throw new NotSupportedException("Selected data type is not supported.");
                 }
 
@@ -250,7 +225,7 @@ namespace ImageFormatConverter
         private bool IsValidImageFile(string filePath)
         {
             string extension = Path.GetExtension(filePath);
-            string[] validExtensions = new string[] { ".png", ".jpg", ".jpeg", ".gif", ".bmp" }; // Add more valid extensions if needed
+            string[] validExtensions = new string[] { ".png", ".jpg", ".jpeg", ".gif", ".bmp" };
 
             return validExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase);
         }
@@ -262,12 +237,7 @@ namespace ImageFormatConverter
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-
-                // File path selected by the user
                 string selectedFilePath = openFileDialog.FileName;
-
-                // Do something with the selected file path
-                // For example, display it in a text box
                 textBox2.Text = selectedFilePath;
                 try
                 {
@@ -280,7 +250,7 @@ namespace ImageFormatConverter
                     }
                     else
                     {
-                        richTextBox1.Text =  "Unknown format";
+                        richTextBox1.Text = "Unknown format";
                     }
                 }
                 catch (Exception ex)
