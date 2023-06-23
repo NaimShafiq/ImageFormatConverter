@@ -25,7 +25,7 @@ namespace ImageFormatConverter
             InitializeComponent();
             InitializeFormatMap();
             comboBox2.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox2.Items.AddRange(new object[] { "GIF", "JPEG", "PNG", "TIF" });
+            comboBox2.Items.AddRange(new object[] { "GIF", "JPEG", "PNG", "TIF", "BMP" });
 
         }
 
@@ -222,6 +222,9 @@ namespace ImageFormatConverter
                         break;
                     case "tif":
                         imageFormat = ImageFormat.Tiff;
+                        break;
+                    case "bmp":
+                        imageFormat = ImageFormat.Bmp;
                         break;
                     default:
                         // Unsupported data type
