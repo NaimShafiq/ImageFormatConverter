@@ -268,7 +268,7 @@ namespace ImageFormatConverter
 
                 // Do something with the selected file path
                 // For example, display it in a text box
-                textBox1.Text = selectedFilePath;
+                textBox2.Text = selectedFilePath;
                 try
                 {
                     Image image = Image.FromFile(openFileDialog.FileName);
@@ -276,11 +276,11 @@ namespace ImageFormatConverter
 
                     if (formatMap.TryGetValue(format.Guid, out string fileExtension))
                     {
-                        MessageBox.Show($"Image format: {fileExtension}");
+                        richTextBox1.Text = $"Image format: {fileExtension}";
                     }
                     else
                     {
-                        MessageBox.Show("Unknown format");
+                        richTextBox1.Text =  "Unknown format";
                     }
                 }
                 catch (Exception ex)
