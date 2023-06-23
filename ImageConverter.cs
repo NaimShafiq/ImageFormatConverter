@@ -244,6 +244,7 @@ namespace ImageFormatConverter
                     Image image = Image.FromFile(openFileDialog.FileName);
                     ImageFormat format = image.RawFormat;
 
+                    // Check the format for image
                     if (formatMap.TryGetValue(format.Guid, out string fileExtension))
                     {
                         richTextBox1.Text = $"Image format: {fileExtension}";
