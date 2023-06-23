@@ -14,17 +14,34 @@ namespace ImageFormatConverter
 {
     public partial class ImageConverter : Form
     {
+        private int totalImagesConverted;
         private int totalImagesToConvert;
         private int imagesConverted;
-        private int totalImagesConverted;
         private DateTime startTime;
+        private Dictionary<Guid, string> formatMap;
 
         public ImageConverter()
         {
             InitializeComponent();
+            InitializeFormatMap();
             comboBox2.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox2.Items.AddRange(new object[] { "GIF", "JPEG", "PNG", "TIF" });
+
         }
+
+        private void InitializeFormatMap()
+        {
+            formatMap = new Dictionary<Guid, string>
+            {
+                { ImageFormat.Bmp.Guid, ".bmp" },
+                { ImageFormat.Jpeg.Guid, ".jpeg" },
+                { ImageFormat.Png.Guid, ".png" },
+                { ImageFormat.Gif.Guid, ".gif" },
+                { ImageFormat.Tiff.Guid, ".tiff" },
+                // Add more format mappings if needed
+            };
+        }
+
 
         private void button2_Click(object sender, EventArgs e)
         {
@@ -94,7 +111,7 @@ namespace ImageFormatConverter
             // Reset progress and time variables
             totalImagesToConvert = 0;
             imagesConverted = 0;
-            totalImagesConverted = 0;
+            totalImagesConverted = 1;
             startTime = DateTime.Now;
 
             // Disable the Convert button during the conversion process
@@ -238,14 +255,39 @@ namespace ImageFormatConverter
             return validExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase);
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void button4_Click(object sender, EventArgs e)
         {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image Files|*.bmp;*.jpg;*.jpeg;*.png;*.gif;*.tif;*.tiff";
 
-        }
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
 
-        private void richTextBox1_TextChanged(object sender, EventArgs e)
-        {
+                // File path selected by the user
+                string selectedFilePath = openFileDialog.FileName;
 
+                // Do something with the selected file path
+                // For example, display it in a text box
+                textBox1.Text = selectedFilePath;
+                try
+                {
+                    Image image = Image.FromFile(openFileDialog.FileName);
+                    ImageFormat format = image.RawFormat;
+
+                    if (formatMap.TryGetValue(format.Guid, out string fileExtension))
+                    {
+                        MessageBox.Show($"Image format: {fileExtension}");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Unknown format");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
     }
 }
