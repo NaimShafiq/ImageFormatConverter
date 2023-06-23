@@ -171,7 +171,7 @@ namespace ImageFormatConverter
             string selectedExtension = "." + dataType.ToLower();
             if (imageExtension == selectedExtension)
             {
-                throw new ArgumentException(imagePath +" is already in "+ selectedExtension +" format.");
+                throw new ArgumentException(imagePath + " is already in " + selectedExtension + " format.");
             }
             // Generate a new file name for the converted image based on the selected data type
             string convertedImagePath = GetConvertedImagePath(imagePath, dataType);
@@ -194,6 +194,7 @@ namespace ImageFormatConverter
                         imageFormat = ImageFormat.Gif;
                         break;
                     case "tif":
+                    case "tiff":
                         imageFormat = ImageFormat.Tiff;
                         break;
                     case "bmp":
@@ -207,20 +208,28 @@ namespace ImageFormatConverter
                 image.Save(convertedImagePath, imageFormat);
             }
 
+            // Set the converted image path to lowercase
+            convertedImagePath = convertedImagePath.ToLower();
+
             // Return the path of the converted image
             return convertedImagePath;
         }
+
 
         private string GetConvertedImagePath(string originalImagePath, string dataType)
         {
             // Generate a new file name for the converted image based on the selected data type
             string originalFileName = Path.GetFileNameWithoutExtension(originalImagePath);
             string originalExtension = Path.GetExtension(originalImagePath);
-            string newFileName = originalFileName + "." + dataType;
+
+            // Convert the new file name to lowercase
+            string newFileName = originalFileName.ToLower() + "." + dataType.ToLower();
+
             string convertedImagePath = Path.Combine(Path.GetDirectoryName(originalImagePath), newFileName);
 
             return convertedImagePath;
         }
+
 
         private bool IsValidImageFile(string filePath)
         {
