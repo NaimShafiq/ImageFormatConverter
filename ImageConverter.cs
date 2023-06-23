@@ -215,7 +215,6 @@ namespace ImageFormatConverter
             return convertedImagePath;
         }
 
-
         private string GetConvertedImagePath(string originalImagePath, string dataType)
         {
             // Generate a new file name for the converted image based on the selected data type
