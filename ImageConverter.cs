@@ -42,7 +42,6 @@ namespace ImageFormatConverter
             };
         }
 
-
         private void button2_Click(object sender, EventArgs e)
         {
             // Clear textBox1 when Browse Folder button is clicked
@@ -188,8 +187,6 @@ namespace ImageFormatConverter
                 richTextBox1.AppendText(Environment.NewLine + resultMessage);
             }
         }
-
-
 
         private string ConvertImageToDataType(string imagePath, string dataType)
         {
