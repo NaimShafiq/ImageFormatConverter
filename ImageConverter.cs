@@ -223,9 +223,7 @@ namespace ImageFormatConverter
 
             // Convert the new file name to lowercase
             string newFileName = originalFileName.ToLower() + "." + dataType.ToLower();
-
             string convertedImagePath = Path.Combine(Path.GetDirectoryName(originalImagePath), newFileName);
-
             return convertedImagePath;
         }
 
