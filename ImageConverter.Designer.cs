@@ -114,7 +114,7 @@ namespace ImageFormatConverter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.DarkKhaki;
+            this.BackColor = System.Drawing.Color.PaleGoldenrod;
             this.ClientSize = new System.Drawing.Size(511, 292);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.richTextBox1);
