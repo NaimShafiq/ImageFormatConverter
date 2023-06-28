@@ -112,8 +112,7 @@ namespace ImageFormatConverter
                 {
                     // Get all image files in the selected folder
                     string[] imageFiles = Directory.GetFiles(selectedPath, "*.*", SearchOption.AllDirectories)
-                        .Where(file => IsValidImageFile(file))
-                        .ToArray();
+                        .Where(file => IsValidImageFile(file)).ToArray();
 
                     // Set total number of images to convert
                     totalImagesToConvert = imageFiles.Length;
