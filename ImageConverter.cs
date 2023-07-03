@@ -226,7 +226,6 @@ namespace ImageFormatConverter
             return convertedImagePath;
         }
 
-
         private bool IsValidImageFile(string filePath)
         {
             string extension = Path.GetExtension(filePath);
